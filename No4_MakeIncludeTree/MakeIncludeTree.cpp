@@ -1,4 +1,4 @@
-#include "MakeIncludeTree.h"
+#include "MakeIncludeTree.hpp"
 
 // boost::wave 関連ヘッダをインクルード
 #include <boost/wave.hpp>

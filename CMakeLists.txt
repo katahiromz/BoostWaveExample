@@ -57,11 +57,14 @@ find_package(Boost REQUIRED COMPONENTS system filesystem wave)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
+##############################################################################
+
 # subdirectories
 subdirs(
-    No1_Basic 
+    No1_Basic
     No2_IgnoreDirectiveHook
     No3_OutputHook
-    No4_MakeIncludeTree)
+    No4_MakeIncludeTree
+    No5_JapaneseShiftJIS)
 
 ##############################################################################

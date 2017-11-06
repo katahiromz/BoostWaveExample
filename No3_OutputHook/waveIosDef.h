@@ -1,6 +1,5 @@
 #pragma once
 
-// boost::wave 関連ヘッダをインクルード
 #include <boost/wave.hpp>
 #include <boost/wave/preprocessing_hooks.hpp>
 #include <boost/wave/cpplexer/cpp_lex_token.hpp>
@@ -16,7 +15,7 @@ namespace boost
 {
     namespace wave
     {
-        /// ContextT に対する出力ストリームオーバロード
+        // Stream overload against ContextT
         template<
             typename IteratorT,
             typename LexIteratorT, 
@@ -38,7 +37,7 @@ namespace boost
 
         namespace cpplexer
         {
-            /// TokenT に対する出力ストリームオーバロード
+            // Stream overload against TokenT
             template<typename PositionT>
             inline std::ostream& operator<<(
                 std::ostream& out,
@@ -66,7 +65,7 @@ namespace std
 {
     namespace
     {
-        /// トークン列出力
+        // Output tokens
         template<typename IteratorT, typename DelimiterT>
         inline void outputTokens(
             std::ostream& out,
@@ -94,7 +93,7 @@ namespace std
         }
     }
 
-    /// ContainerT, DefinitionT に対する出力ストリームオーバロード
+    // Stream overload against ContainerT, DefinitionT
     template<typename PositionT, typename AllocT>
     inline std::ostream& operator<<(
         std::ostream& out,
@@ -124,7 +123,7 @@ namespace std
         return out;
     }
 
-    /// std::vector<ContainerT> に対する出力ストリームオーバロード
+    // Stream overload against std::vector<ContainerT>
     template<typename PositionT, typename VAllocT, typename LAllocT>
     inline std::ostream& operator<<(
         std::ostream& out,
@@ -158,7 +157,7 @@ namespace std
         return out;
     }
 
-    /// ExceptionT に対する出力ストリームオーバロード
+    // Stream overload against ExceptionT
     inline std::ostream& operator<<(
         std::ostream& out,
         const std::exception& e)

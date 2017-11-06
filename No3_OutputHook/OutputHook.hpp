@@ -2,7 +2,6 @@
 
 #include "waveIosDef.h"
 
-// boost::wave 関連ヘッダをインクルード
 #include <boost/wave.hpp>
 #include <boost/wave/preprocessing_hooks.hpp>
 
@@ -15,7 +14,7 @@
 #include <algorithm>
 #include <iostream>
 
-// 関数名マクロ __func__
+// macro __func__
 #if !defined(__func__)
 #if defined(__FUNCTION__)
 #define __func__ __FUNCTION__
@@ -26,23 +25,21 @@
 #endif
 #endif // !defined(__func__)
 
-/// 捕捉情報を出力するフッククラス
+// A preprocessing hook to get information
 class OutputInfoHook
     :
     public boost::wave::context_policies::default_preprocessing_hooks
 {
 private:
-    /// ベースクラス型
     typedef boost::wave::context_policies::default_preprocessing_hooks Base;
 
 public:
-    /// コンストラクタ
     OutputInfoHook(std::ostream& out) : _out(out)
     {
     }
 
 private:
-    /// 関数呼び出し情報出力
+    // Output function info
     template<typename TArgs>
     void outputFuncInfo(const char* funcName, const TArgs& args)
     {
@@ -58,7 +55,7 @@ private:
     }
 
 public:
-    /// ディレクティブ発見時の捕捉関数
+    // Output directive info
     template<
         typename ContextT,
         typename TokenT>
@@ -75,7 +72,7 @@ public:
         return Base::found_directive(ctx, directive);
     }
 
-    /// #include ディレクティブ発見時の捕捉関数
+    // Output #include info
     template<typename ContextT>
     bool found_include_directive(
         ContextT const& ctx,
@@ -92,7 +89,7 @@ public:
         return Base::found_include_directive(ctx, filename, include_next);
     }
 
-    /// #warning ディレクティブ発見時の捕捉関数
+    // Output #warning info
     template<
         typename ContextT,
         typename ContainerT>
@@ -109,7 +106,7 @@ public:
         return Base::found_warning_directive(ctx, message);
     }
 
-    /// #error ディレクティブ発見時の捕捉関数
+    // Output #error info
     template<
         typename ContextT,
         typename ContainerT>
@@ -126,7 +123,7 @@ public:
         return Base::found_error_directive(ctx, message);
     }
 
-    /// #line ディレクティブ発見時の捕捉関数
+    // Output #line info
     template<
         typename ContextT,
         typename ContainerT>
@@ -147,7 +144,7 @@ public:
         Base::found_line_directive(ctx, arguments, line, filename);
     }
 
-    /// 条件分岐ディレクティブ展開時の捕捉関数
+    // Output #if/#ifdef/#ifndef info
     template<
         typename ContextT,
         typename TokenT,
@@ -173,7 +170,7 @@ public:
             expression_value);
     }
 
-    /// トークンスキップ時の捕捉関数
+    // Output token skip info
     template<
         typename ContextT,
         typename TokenT>
@@ -190,7 +187,7 @@ public:
         Base::skipped_token(ctx, token);
     }
 
-    /// トークン生成時の捕捉関数
+    // Output token generation info
     template<
         typename ContextT,
         typename TokenT>
@@ -207,7 +204,7 @@ public:
         return Base::generated_token(ctx, token);
     }
 
-    /// マクロ定義時の捕捉関数
+    // Output macro definition info
     template<
         typename ContextT,
         typename TokenT,
@@ -240,7 +237,7 @@ public:
             is_predefined);
     }
 
-    /// マクロ削除時の捕捉関数
+    // Output macro #undef info
     template<
         typename ContextT,
         typename TokenT>
@@ -257,7 +254,7 @@ public:
         Base::undefined_macro(ctx, macro_name);
     }
 
-    /// 文字列置換マクロ展開時の捕捉関数
+    // Output macro expansion info
     template<
         typename ContextT,
         typename TokenT,
@@ -283,7 +280,7 @@ public:
             macrocall);
     }
 
-    /// 引数リスト付きマクロ展開時の捕捉関数
+    // Output function like macro info
     template<
         typename ContextT,
         typename TokenT,
@@ -325,7 +322,7 @@ public:
             seqend);
     }
 
-    /// マクロ展開完了時の捕捉関数
+    // Output post macro expansion info
     template<
         typename ContextT,
         typename ContainerT>
@@ -342,7 +339,7 @@ public:
         Base::expanded_macro(ctx, result);
     }
 
-    /// マクロ展開完全完了時の捕捉関数
+    // Output macro rescan info
     template<
         typename ContextT,
         typename ContainerT>
@@ -359,7 +356,7 @@ public:
         Base::rescanned_macro(ctx, result);
     }
 
-    /// インクルードパス設定処理関数
+    // Output include path info
     template<typename ContextT>
     bool locate_include_file(
         ContextT& ctx,
@@ -402,7 +399,7 @@ public:
         return result;
     }
 
-    /// インクルードファイル解析開始時の捕捉関数
+    // Output include file open info
     template<typename ContextT>
     void opened_include_file(
         ContextT const& ctx,
@@ -425,7 +422,7 @@ public:
             is_system_include);
     }
 
-    /// インクルードファイル解析完了時の捕捉関数
+    // Output included info
     template<typename ContextT>
     void returning_from_include_file(ContextT const& ctx)
     {
@@ -436,7 +433,7 @@ public:
         Base::returning_from_include_file(ctx);
     }
 
-    /// インクルードガード検出時の捕捉関数
+    // Output include guard info
     template<typename ContextT>
     void detected_include_guard(
         ContextT const& ctx,
@@ -453,7 +450,7 @@ public:
         Base::detected_include_guard(ctx, filename, include_guard);
     }
 
-    /// #pragma once 検出時の捕捉関数
+    // Output #pragma once info
     template<
         typename ContextT,
         typename TokenT>
@@ -472,7 +469,7 @@ public:
         Base::detected_pragma_once(ctx, pragma_token, filename);
     }
 
-    /// 例外送出処理関数
+    // Output exception throw info
     template<
         typename ContextT,
         typename ExceptionT>
@@ -489,7 +486,7 @@ public:
         Base::throw_exception(ctx, e);
     }
 
-    /// トークンスキップ処理関数
+    // Output whitespace skip info
     template<
         typename ContextT,
         typename TokenT>
@@ -509,7 +506,6 @@ public:
     }
 
 private:
-    /// 出力ストリーム参照
-    /// コピーできるように reference_wrapper で持つ
+    // Output output stream info
     boost::reference_wrapper<std::ostream> _out;
 };
