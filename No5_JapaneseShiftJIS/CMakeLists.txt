@@ -7,6 +7,7 @@ if(USE_ICONV)
     if(ICONV_SECOND_ARGUMENT_IS_CONST)
         add_definitions(-DICONV_SECOND_ARGUMENT_IS_CONST)
     endif()
+    message("ICONV_SECOND_ARGUMENT_IS_CONST is ${ICONV_SECOND_ARGUMENT_IS_CONST}")
 endif()
 
 ##############################################################################

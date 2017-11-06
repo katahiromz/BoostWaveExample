@@ -44,8 +44,8 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 ##############################################################################
+# Use libiconv?
 
-# Win32 or not?
 if(CMAKE_HOST_WIN32)
     option(USE_ICONV "Use libiconv" OFF)
 else()
@@ -57,8 +57,6 @@ message("USE_ICONV is ${USE_ICONV}")
 if(USE_ICONV)
     add_definitions(-DUSE_ICONV)
 endif()
-
-##############################################################################
 
 # To load "FindIconv.cmake"
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.)
