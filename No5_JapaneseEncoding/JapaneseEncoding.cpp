@@ -4,7 +4,7 @@
 #include <boost/wave/cpplexer/cpp_lex_token.hpp>
 #include <boost/wave/cpplexer/cpp_lex_iterator.hpp>
 
-#include "wave_utf8.hpp"
+#include "JapaneseEncoding.hpp"
 #include <iostream>
 #include <string>
 
@@ -17,14 +17,14 @@ int main(int argc, char* argv[])
     if (argc < 2) { return 1; }
 
     // Load source and convert it to UTF-8
-    const std::string code = wave_utf8::readFileToUtf8(argv[1]);
+    const std::string code = JapaneseEncoding::readFileToUtf8(argv[1]);
 
     // Prepare for context
     typedef
         wave::context<
             std::string::const_iterator,
             wave::cpplexer::lex_iterator< wave::cpplexer::lex_token<> >,
-            wave_utf8::Utf8InputPolicy,
+            JapaneseEncoding::Utf8InputPolicy,
             wave::context_policies::default_preprocessing_hooks>
         Context;
     Context ctx(code.begin(), code.end(), argv[1]);
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
         {
             // Convert UTF-8 to narrow
             auto value = (*itr).get_value();
-            cout << wave_utf8::utf8_to_narrow(value.c_str());
+            cout << JapaneseEncoding::utf8_to_narrow(value.c_str());
         }
     }
     catch (const wave::cpp_exception& ex)

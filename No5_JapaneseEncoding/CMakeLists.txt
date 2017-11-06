@@ -12,25 +12,25 @@ endif()
 
 ##############################################################################
 
-add_executable(JapaneseShiftJIS JapaneseShiftJIS.cpp)
+add_executable(JapaneseEncoding JapaneseEncoding.cpp)
 
 if(USE_ICONV)
-    target_include_directories(JapaneseShiftJIS PUBLIC ${ICONV_INCLUDE_DIRS})
-    target_link_libraries(JapaneseShiftJIS ${Boost_LIBRARIES} ${ICONV_LIBRARIES})
+    target_include_directories(JapaneseEncoding PUBLIC ${ICONV_INCLUDE_DIRS})
+    target_link_libraries(JapaneseEncoding ${Boost_LIBRARIES} ${ICONV_LIBRARIES})
 else()
-    target_link_libraries(JapaneseShiftJIS ${Boost_LIBRARIES})
+    target_link_libraries(JapaneseEncoding ${Boost_LIBRARIES})
 endif()
 
 ##############################################################################
 
-add_executable(wave_utf8_test wave_utf8_test.cpp)
-add_test(NAME wave_utf8_test COMMAND wave_utf8_test)
+add_executable(JapaneseEncodingTest JapaneseEncodingTest.cpp)
+add_test(NAME JapaneseEncodingTest COMMAND JapaneseEncodingTest)
 
 if(USE_ICONV)
-    target_include_directories(wave_utf8_test PUBLIC ${ICONV_INCLUDE_DIRS})
-    target_link_libraries(wave_utf8_test ${Boost_LIBRARIES} ${ICONV_LIBRARIES})
+    target_include_directories(JapaneseEncodingTest PUBLIC ${ICONV_INCLUDE_DIRS})
+    target_link_libraries(JapaneseEncodingTest ${Boost_LIBRARIES} ${ICONV_LIBRARIES})
 else()
-    target_link_libraries(wave_utf8_test ${Boost_LIBRARIES})
+    target_link_libraries(JapaneseEncodingTest ${Boost_LIBRARIES})
 endif()
 
 ##############################################################################

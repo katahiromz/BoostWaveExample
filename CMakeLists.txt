@@ -76,6 +76,6 @@ subdirs(
     No2_IgnoreDirectiveHook
     No3_OutputHook
     No4_MakeIncludeTree
-    No5_JapaneseShiftJIS)
+    No5_JapaneseEncoding)
 
 ##############################################################################

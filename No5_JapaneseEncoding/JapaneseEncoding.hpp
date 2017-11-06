@@ -13,7 +13,7 @@
     #include <iconv.h>
 #endif
 
-namespace wave_utf8
+namespace JapaneseEncoding
 {
     inline const char *get_wide_charset(void)
     {
