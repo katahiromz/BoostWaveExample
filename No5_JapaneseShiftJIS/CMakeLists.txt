@@ -3,6 +3,10 @@
 if(USE_ICONV)
     set(iconv_USE_STATIC_LIBS ON)
     find_package(Iconv REQUIRED)
+    
+    if(ICONV_SECOND_ARGUMENT_IS_CONST)
+        add_definitions(-DICONV_SECOND_ARGUMENT_IS_CONST)
+    endif()
 endif()
 
 ##############################################################################

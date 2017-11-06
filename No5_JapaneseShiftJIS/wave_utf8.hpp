@@ -47,7 +47,11 @@ namespace wave_utf8
         if ((iconv_t)-1 != ic)
         {
             size_t ansi_len = ansi.size();
-            char *ansi_ptr  = const_cast<char *>(ansi.c_str());
+            #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
+                const char *ansi_ptr  = ansi.c_str();
+            #else
+                char *ansi_ptr  = const_cast<char *>(ansi.c_str());
+            #endif
             size_t wide_len = (ansi.size() + 1) * sizeof(wchar_t);
             char *wide_ptr  = (char *)malloc(wide_len);
             if (wide_ptr &&
@@ -82,7 +86,11 @@ namespace wave_utf8
         if ((iconv_t)-1 != ic)
         {
             size_t wide_len = wide.size();
-            char *wide_ptr  = reinterpret_cast<char *>(const_cast<wchar_t *>(wide.c_str()));
+            #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
+                const char *wide_ptr  = reinterpret_cast<const char *>(wide.c_str());
+            #else
+                char *wide_ptr  = reinterpret_cast<char *>(const_cast<wchar_t *>(wide.c_str()));
+            #endif
             size_t ansi_len = (wide.size() + 1) * sizeof(wchar_t);
             char *ansi_ptr  = (char *)malloc(ansi_len);
             if (ansi_ptr &&
@@ -117,7 +125,11 @@ namespace wave_utf8
         if ((iconv_t)-1 != ic)
         {
             size_t utf8_len = utf8.size();
-            char *utf8_ptr  = const_cast<char *>(utf8.c_str());
+            #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
+                const char *utf8_ptr  = utf8.c_str();
+            #else
+                char *utf8_ptr  = const_cast<char *>(utf8.c_str());
+            #endif
             size_t wide_len = (utf8.size() + 1) * sizeof(wchar_t);
             char *wide_ptr  = (char *)malloc(wide_len);
             if (wide_ptr &&
@@ -151,7 +163,11 @@ namespace wave_utf8
         if ((iconv_t)-1 != ic)
         {
             size_t wide_len = wide.size();
-            char *wide_ptr  = reinterpret_cast<char *>(const_cast<wchar_t *>(wide.c_str()));
+            #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
+                const char *wide_ptr  = reinterpret_cast<const char *>(wide.c_str());
+            #else
+                char *wide_ptr  = reinterpret_cast<char *>(const_cast<wchar_t *>(wide.c_str()));
+            #endif
             size_t utf8_len = (wide.size() + 1) * 3;
             char *utf8_ptr  = (char *)malloc(utf8_len);
             if (utf8_ptr &&
