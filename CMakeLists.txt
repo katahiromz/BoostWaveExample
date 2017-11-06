@@ -62,6 +62,12 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.)
 
 ##############################################################################
+# Japanese?
+
+option(JAPANESE "Are you Japanese?" OFF)
+message("JAPANESE is ${JAPANESE}")
+
+##############################################################################
 
 # Boost
 find_package(Boost REQUIRED COMPONENTS system filesystem wave)
@@ -69,13 +75,21 @@ include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
 ##############################################################################
-
 # subdirectories
-subdirs(
-    No1_Basic
-    No2_IgnoreDirectiveHook
-    No3_OutputHook
-    No4_MakeIncludeTree
-    No5_JapaneseEncoding)
+
+if(JAPANESE)
+    subdirs(
+        No1_Basic
+        No2_IgnoreDirectiveHook
+        No3_OutputHook
+        No4_MakeIncludeTree
+        No5_JapaneseEncoding)
+else()
+    subdirs(
+        No1_Basic
+        No2_IgnoreDirectiveHook
+        No3_OutputHook
+        No4_MakeIncludeTree)
+endif()
 
 ##############################################################################
