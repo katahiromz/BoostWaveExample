@@ -6,6 +6,9 @@
 # CMake minimum version
 cmake_minimum_required(VERSION 2.4)
 
+# Enable testing
+enable_testing()
+
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
@@ -43,12 +46,22 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 ##############################################################################
 
 # Win32 or not?
-if (NOT CMAKE_HOST_WIN32)
-    message(FATAL_ERROR "To build this project, use Win32 C++ compiler")
+if(CMAKE_HOST_WIN32)
+    option(USE_ICONV "Use libiconv" OFF)
+else()
+    option(USE_ICONV "Use libiconv" ON)
 endif()
 
-# enable Win32 resource
-ENABLE_LANGUAGE(RC)
+# Use libiconv?
+message("USE_ICONV is ${USE_ICONV}")
+if(USE_ICONV)
+    add_definitions(-DUSE_ICONV)
+endif()
+
+##############################################################################
+
+# To load "FindIconv.cmake"
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.)
 
 ##############################################################################
 

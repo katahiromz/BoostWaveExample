@@ -29,3 +29,4 @@ TMP1.$$$
 *.sdf
 *.opensdf
 ipch
+CTestTestfile.cmake
