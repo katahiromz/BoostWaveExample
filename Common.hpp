@@ -82,4 +82,52 @@ public:
     };
 };
 
+template <typename T_CONTEXT>
+inline void setup_context(T_CONTEXT& ctx)
+{
+    namespace wave = boost::wave;
+
+    // Language options
+    ctx.set_language(
+        wave::language_support(
+            wave::support_cpp               |
+            wave::support_option_long_long  |
+            wave::support_option_variadics));
+
+#ifdef _WIN32
+    const int MAX_ENV = 512;
+    ctx.add_macro_definition("_WIN32=1");
+    #ifdef _MSC_VER
+        ctx.add_macro_definition("_MSC_VER=" STRINGIFY2(_MSC_VER));
+        char szInclude[MAX_ENV];
+        if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
+        {
+            ctx.add_sysinclude_path(szInclude);
+        }
+    #elif defined(__MINGW32__) || defined(__clang__)
+        ctx.add_macro_definition("__GNUC__");
+        char szInclude[MAX_ENV], szHost[MAX_ENV];
+        if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV))
+        {
+            lstrcatA(szInclude, "/include");
+            ctx.add_sysinclude_path(szInclude);
+            std::cout << szInclude << std::endl;
+        }
+        if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV) &&
+            GetEnvironmentVariableA("MINGW_CHOST", szHost, MAX_ENV))
+        {
+            lstrcatA(szInclude, "/");
+            lstrcatA(szInclude, szHost);
+            lstrcatA(szInclude, "/include");
+            ctx.add_sysinclude_path(szInclude);
+            std::cout << szInclude << std::endl;
+        }
+    #endif
+    else
+#endif
+    {
+        ctx.add_sysinclude_path("/usr/include");
+    }
+}
+
 #endif  // ndef BOOST_WAVE_EXAMPLE_COMMON_HPP
