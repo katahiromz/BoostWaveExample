@@ -237,6 +237,7 @@ namespace JapaneseEncoding
                 try
                 {
                     iterContext.code = readFileToUtf8(iterContext.filename.c_str());
+                    iterContext.code += "\n";
                 }
                 catch (const std::exception&)
                 {
@@ -248,7 +249,6 @@ namespace JapaneseEncoding
                         pos);
                     return;
                 }
-
 
                 typedef typename IterContextT::iterator_type iterator_type;
                 iterContext.first =

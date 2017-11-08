@@ -1,28 +1,12 @@
-#include "MakeIncludeTree.hpp"
-
-#include <boost/wave.hpp>
-#include <boost/wave/preprocessing_hooks.hpp>
-#include <boost/wave/cpplexer/cpp_lex_token.hpp>
-#include <boost/wave/cpplexer/cpp_lex_iterator.hpp>
-
+#include "../Common.hpp"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/info_parser.hpp>
-#include <iostream>
-#include <fstream>
-#include <string>
-
-#ifdef _WIN32
-    #include <windows.h>
-#endif
-
-#define STRINGIFY1(x) #x
-#define STRINGIFY2(x) STRINGIFY1(x)
-
-namespace wave = boost::wave;
+#include "MakeIncludeTree.hpp"
 
 int main(int argc, char* argv[])
 {
     using namespace std;
+    namespace wave = boost::wave;
     using namespace boost::property_tree;
 
     if (argc < 2) { return 1; }
@@ -45,7 +29,7 @@ int main(int argc, char* argv[])
         wave::context<
             std::string::const_iterator,
             wave::cpplexer::lex_iterator< wave::cpplexer::lex_token<> >,
-            wave::iteration_context_policies::load_file_to_string,
+            InputPolicy,
             MakeIncludeTreeHook> // Original hook
         Context;
     Context ctx(
@@ -62,15 +46,36 @@ int main(int argc, char* argv[])
             wave::support_option_variadics  |
             wave::support_option_include_guard_detection));
 
+    // Setup preprocessor
 #ifdef _WIN32
+    const int MAX_ENV = 512;
     ctx.add_macro_definition("_WIN32=1");
-    ctx.add_macro_definition("_MSC_VER=" STRINGIFY2(_MSC_VER));
-    const int MAX_ENV = 1024;
-    char szInclude[MAX_ENV];
-    if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
-    {
-        ctx.add_sysinclude_path(szInclude);
-    }
+    #ifdef _MSC_VER
+        ctx.add_macro_definition("_MSC_VER=" STRINGIFY2(_MSC_VER));
+        char szInclude[MAX_ENV];
+        if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
+        {
+            ctx.add_sysinclude_path(szInclude);
+        }
+    #elif defined(__MINGW32__) || defined(__clang__)
+        ctx.add_macro_definition("__GNUC__");
+        char szInclude[MAX_ENV], szHost[MAX_ENV];
+        if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV))
+        {
+            lstrcatA(szInclude, "/include");
+            ctx.add_sysinclude_path(szInclude);
+            std::cout << szInclude << std::endl;
+        }
+        if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV) &&
+            GetEnvironmentVariableA("MINGW_CHOST", szHost, MAX_ENV))
+        {
+            lstrcatA(szInclude, "/");
+            lstrcatA(szInclude, szHost);
+            lstrcatA(szInclude, "/include");
+            ctx.add_sysinclude_path(szInclude);
+            std::cout << szInclude << std::endl;
+        }
+    #endif
     else
 #endif
     {
