@@ -7,6 +7,13 @@
 #include <fstream>
 #include <string>
 
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
+#define STRINGIFY1(x) #x
+#define STRINGIFY2(x) STRINGIFY1(x)
+
 namespace wave = boost::wave;
 
 int main(int argc, char* argv[])
@@ -25,7 +32,7 @@ int main(int argc, char* argv[])
             std::istreambuf_iterator<char>());
     }
 
-    // Prepare for context
+    // Prepare context
     typedef
         wave::context<
             std::string::const_iterator,
@@ -42,10 +49,20 @@ int main(int argc, char* argv[])
             wave::support_option_long_long  |
             wave::support_option_variadics));
 
-    ctx.add_macro_definition("_WIN32");
-    ctx.add_macro_definition("_MSC_VER=1800");
-    ctx.add_sysinclude_path(
-        "C:/Program Files/Microsoft Visual Studio 12.0/VC/include");
+#ifdef _WIN32
+    ctx.add_macro_definition("_WIN32=1");
+    ctx.add_macro_definition("_MSC_VER=" STRINGIFY2(_MSC_VER));
+    const int MAX_ENV = 1024;
+    char szInclude[MAX_ENV];
+    if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
+    {
+        ctx.add_sysinclude_path(szInclude);
+    }
+    else
+#endif
+    {
+        ctx.add_sysinclude_path("/usr/include");
+    }
 
     try
     {

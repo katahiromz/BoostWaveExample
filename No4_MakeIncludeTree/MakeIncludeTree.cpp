@@ -1,6 +1,5 @@
 #include "MakeIncludeTree.hpp"
 
-// boost::wave 関連ヘッダをインクルード
 #include <boost/wave.hpp>
 #include <boost/wave/preprocessing_hooks.hpp>
 #include <boost/wave/cpplexer/cpp_lex_token.hpp>
@@ -12,10 +11,15 @@
 #include <fstream>
 #include <string>
 
-// 名前空間のエイリアス名定義
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
+#define STRINGIFY1(x) #x
+#define STRINGIFY2(x) STRINGIFY1(x)
+
 namespace wave = boost::wave;
 
-/// メインエントリポイント
 int main(int argc, char* argv[])
 {
     using namespace std;
@@ -23,7 +27,7 @@ int main(int argc, char* argv[])
 
     if (argc < 2) { return 1; }
 
-    // ソースファイルを読み込む
+    // Load source
     std::string code;
     {
         std::ifstream fs(argv[1]);
@@ -33,41 +37,49 @@ int main(int argc, char* argv[])
             std::istreambuf_iterator<char>());
     }
 
-    // ツリー用意
+    // Tree
     ptree incTree;
 
-    // コンテキスト用意
+    // Prepare context
     typedef
         wave::context<
             std::string::const_iterator,
             wave::cpplexer::lex_iterator< wave::cpplexer::lex_token<> >,
             wave::iteration_context_policies::load_file_to_string,
-            MakeIncludeTreeHook> // 独自のフッククラス型を渡す
+            MakeIncludeTreeHook> // Original hook
         Context;
     Context ctx(
         code.begin(),
         code.end(),
         argv[1],
-        MakeIncludeTreeHook(incTree)); // ツリーを渡す
+        MakeIncludeTreeHook(incTree)); // Pass the tree
 
-    // 言語サポートオプション設定
+    // Language options
     ctx.set_language(
         wave::language_support(
-            wave::support_cpp               |   // C++として処理
-            wave::support_option_long_long  |   // long long 型サポート
-            wave::support_option_variadics  |   // 可変長引数マクロサポート
-            wave::support_option_include_guard_detection)); // インクルードガード検出
+            wave::support_cpp               |
+            wave::support_option_long_long  |
+            wave::support_option_variadics  |
+            wave::support_option_include_guard_detection));
 
-    // コンパイルオプション設定
-    // Visual Studio 2013 がインストールされていることを想定している
-    ctx.add_macro_definition("_WIN32");
-    ctx.add_macro_definition("_MSC_VER=1800");
-    ctx.add_sysinclude_path(
-        "C:/Program Files/Microsoft Visual Studio 12.0/VC/include");
+#ifdef _WIN32
+    ctx.add_macro_definition("_WIN32=1");
+    ctx.add_macro_definition("_MSC_VER=" STRINGIFY2(_MSC_VER));
+    const int MAX_ENV = 1024;
+    char szInclude[MAX_ENV];
+    if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
+    {
+        ctx.add_sysinclude_path(szInclude);
+    }
+    else
+#endif
+    {
+        ctx.add_sysinclude_path("/usr/include");
+    }
 
     try
     {
-        // ソースコード解析(トークン出力はしない)
+        // Parse source code
         Context::iterator_type itrEnd = ctx.end();
         for (Context::iterator_type itr = ctx.begin(); itr != itrEnd; ++itr)
         {
@@ -76,13 +88,13 @@ int main(int argc, char* argv[])
     }
     catch (const wave::cpp_exception& ex)
     {
-        // 例外処理
+        // Exception has happened
         cerr << ex.file_name() << " : " << ex.line_no() << endl;
         cerr << "  -> " << ex.description() << endl;
         return 1;
     }
 
-    // インクルードツリーの内容を info_parser で出力
+    // Output include tree
     info_parser::write_info(cout, incTree);
 
     return 0;
