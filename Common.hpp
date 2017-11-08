@@ -17,7 +17,7 @@
 #define STRINGIFY1(x) #x
 #define STRINGIFY2(x) STRINGIFY1(x)
 
-class InputPolicy
+class BasicInputPolicy
 {
 public:
     template <typename IterContextT>

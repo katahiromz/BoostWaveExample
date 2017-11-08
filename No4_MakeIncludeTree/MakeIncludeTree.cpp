@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
         wave::context<
             std::string::const_iterator,
             wave::cpplexer::lex_iterator< wave::cpplexer::lex_token<> >,
-            InputPolicy,
+            BasicInputPolicy,
             MakeIncludeTreeHook> // Original hook
         Context;
     Context ctx(

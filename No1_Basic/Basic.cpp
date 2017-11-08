@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
         wave::context<
             std::string::const_iterator,
             wave::cpplexer::lex_iterator< wave::cpplexer::lex_token<> >,
-            InputPolicy,
+            BasicInputPolicy,
             wave::context_policies::default_preprocessing_hooks>
         Context;
     Context ctx(code.begin(), code.end(), argv[1]);
