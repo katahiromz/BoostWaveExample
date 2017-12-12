@@ -94,18 +94,17 @@ inline void setup_context(T_CONTEXT& ctx)
             wave::support_option_long_long  |
             wave::support_option_variadics));
 
+    #include "predefined.h"
+
 #ifdef _WIN32
     const int MAX_ENV = 512;
-    ctx.add_macro_definition("_WIN32=1");
     #ifdef _MSC_VER
-        ctx.add_macro_definition("_MSC_VER=" STRINGIFY2(_MSC_VER));
         char szInclude[MAX_ENV];
         if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
         {
             ctx.add_sysinclude_path(szInclude);
         }
-    #elif defined(__MINGW32__) || defined(__clang__)
-        ctx.add_macro_definition("__GNUC__");
+    #elif defined(__MINGW32__) || defined(__CYGWIN__) || defined(__clang__)
         char szInclude[MAX_ENV], szHost[MAX_ENV];
         if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV))
         {
