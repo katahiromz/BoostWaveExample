@@ -784,9 +784,9 @@
 #ifdef __STDC_VERSION__
     ctx.add_macro_definition("__STDC_VERSION__=" STRINGIFY2(__STDC_VERSION__));
 #endif
-#ifdef __STDC__
-    ctx.add_macro_definition("__STDC__=" STRINGIFY2(__STDC__));
-#endif
+//#ifdef __STDC__
+//    ctx.add_macro_definition("__STDC__=" STRINGIFY2(__STDC__));
+//#endif
 #ifdef __TURBOC__
     ctx.add_macro_definition("__TURBOC__=" STRINGIFY2(__TURBOC__));
 #endif
