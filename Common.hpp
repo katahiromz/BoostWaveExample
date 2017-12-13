@@ -98,7 +98,7 @@ inline void setup_context(T_CONTEXT& ctx)
 
 #ifdef _WIN32
     const int MAX_ENV = 512;
-    #ifdef _MSC_VER
+    #if defined(_MSC_VER) || defined(__BORLANDC__)
         char szInclude[MAX_ENV];
         if (GetEnvironmentVariableA("INCLUDE", szInclude, MAX_ENV))
         {
