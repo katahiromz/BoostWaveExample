@@ -30,7 +30,8 @@ int main(int argc, char **argv)
             wave::context_policies::default_preprocessing_hooks>
         Context;
     Context ctx(code.begin(), code.end(), argv[argc - 1]);
-    setup_context(ctx, argc, argv);
+    if (!setup_context(ctx, argc, argv))
+        return 2;
 
     try
     {

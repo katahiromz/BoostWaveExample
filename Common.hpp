@@ -94,7 +94,7 @@ inline void show_help(void)
 #include "predefined.h"
 
 template <typename T_CONTEXT>
-inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
+inline bool setup_context(T_CONTEXT& ctx, int argc, char **argv)
 {
     using namespace boost;
 
@@ -126,6 +126,9 @@ inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
             case 'S':
                 ctx.add_sysinclude_path(str.c_str());
                 break;
+            default:
+                fprintf(stderr, "ERROR: invalid argument '%s'\n", argv[i]);
+                return false;
             }
         }
     }
@@ -175,6 +178,8 @@ inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
         ctx.add_sysinclude_path("/usr/include");
     }
 #endif  // ndef _WIN32
+
+    return true;
 }
 
 #endif  // ndef BOOST_WAVE_EXAMPLE_COMMON_HPP

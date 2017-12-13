@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     // Load source
     std::string code;
     {
-        std::ifstream fs(argv[1]);
+        std::ifstream fs(argv[argc - 1]);
         fs.unsetf(std::ios::skipws);
         code.assign(
             std::istreambuf_iterator<char>(fs.rdbuf()),
@@ -39,9 +39,10 @@ int main(int argc, char **argv)
     Context ctx(
         code.begin(),
         code.end(),
-        argv[1],
+        argv[argc - 1],
         MakeIncludeTreeHook(incTree)); // Pass the tree
-    setup_context(ctx, argc, argv);
+    if (!setup_context(ctx, argc, argv))
+        return 2;
 
     try
     {

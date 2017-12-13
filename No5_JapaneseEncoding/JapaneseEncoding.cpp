@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     }
 
     // Load source and convert it to UTF-8
-    const std::string code = JapaneseEncoding::readFileToUtf8(argv[1]);
+    const std::string code = JapaneseEncoding::readFileToUtf8(argv[argc - 1]);
 
     // Prepare context
     typedef
@@ -23,8 +23,9 @@ int main(int argc, char* argv[])
             JapaneseEncoding::Utf8InputPolicy,
             wave::context_policies::default_preprocessing_hooks>
         Context;
-    Context ctx(code.begin(), code.end(), argv[1]);
-    setup_context(ctx, argc, argv);
+    Context ctx(code.begin(), code.end(), argv[argc - 1]);
+    if (!setup_context(ctx, argc, argv))
+        return 2;
 
     try
     {
