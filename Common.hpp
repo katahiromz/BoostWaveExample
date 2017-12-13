@@ -14,8 +14,8 @@
     #include <windows.h>
 #endif
 
-#define STRINGIFY1(x) #x
-#define STRINGIFY2(x) STRINGIFY1(x)
+#define STRINGIFY(x) #x
+#define XSTRINGIFY(x) STRINGIFY(x)
 
 class BasicInputPolicy
 {
