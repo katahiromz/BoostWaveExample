@@ -94,6 +94,9 @@
 #ifdef _MSC_VER
     ctx.add_macro_definition("_MSC_VER=" XSTRINGIFY(_MSC_VER), true);
 #endif
+#ifdef _MT
+    ctx.add_macro_definition("_MT=" XSTRINGIFY(_MT), true);
+#endif
 #ifdef _M_ALPHA
     ctx.add_macro_definition("_M_ALPHA=" XSTRINGIFY(_M_ALPHA), true);
 #endif
