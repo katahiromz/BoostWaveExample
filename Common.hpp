@@ -1,6 +1,8 @@
 #ifndef BOOST_WAVE_EXAMPLE_COMMON_HPP
 #define BOOST_WAVE_EXAMPLE_COMMON_HPP
 
+#include "predefined.h"
+
 #include <boost/wave.hpp>
 #include <boost/wave/preprocessing_hooks.hpp>
 #include <boost/wave/cpplexer/cpp_lex_token.hpp>
@@ -90,8 +92,6 @@ inline void show_help(void)
         "  -Ipath         Adds include path\n"
         "  -Spath         Adds system include path" << std::endl;
 }
-
-#include "predefined.h"
 
 template <typename T_CONTEXT>
 inline bool setup_context(T_CONTEXT& ctx, int argc, char **argv)
