@@ -7,3 +7,5 @@ XSTRINGIFY(ABC)
 XSTRINGIFY
 (ABC)
 XSTRINGIFY(DEF)
+
+#include <stdio.h>
