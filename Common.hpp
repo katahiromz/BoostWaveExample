@@ -82,10 +82,22 @@ public:
     };
 };
 
+inline void show_help(void)
+{
+    std::cout <<
+        "cpp [options] input-file.h\n"
+        "Options:\n"
+        "  -Dmacro        Defines a macro\n"
+        "  -Dmacro=def    Defines a macro\n"
+        "  -Umacro        Undefines a macro\n"
+        "  -Ipath         Add include path\n"
+        "  -Spath         Add system include path" << std::endl;
+}
+
 template <typename T_CONTEXT>
 inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
 {
-    namespace wave = boost::wave;
+    using namespace boost;
 
     // Language options
     ctx.set_language(
@@ -98,15 +110,24 @@ inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
 
     for (int i = 1; i < argc; ++i)
     {
-        if (argv[i][0] == '-' && argv[i][1] == 'D')
+        if (argv[i][0] == '-' && argv[i][1])
         {
             std::string str = &(argv[i][2]);
-            ctx.add_macro_definition(str);
-        }
-        else if (argv[i][0] == '-' && argv[i][1] == 'U')
-        {
-            std::string str = &(argv[i][2]);
-            ctx.remove_macro_definition(str);
+            switch (argv[i][1])
+            {
+            case 'D':
+                ctx.add_macro_definition(str);
+                break;
+            case 'U':
+                ctx.remove_macro_definition(str);
+                break;
+            case 'I':
+                ctx.add_include_path(str.c_str());
+                break;
+            case 'S':
+                ctx.add_sysinclude_path(str.c_str());
+                break;
+            }
         }
     }
 

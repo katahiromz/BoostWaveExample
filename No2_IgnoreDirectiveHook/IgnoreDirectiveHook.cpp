@@ -6,14 +6,9 @@ int main(int argc, char **argv)
     namespace wave = boost::wave;
     using namespace std;
 
-    if (argc < 2)
+    if (argc < 2 || strcmp(argv[1], "--help") == 0)
     {
-        cout <<
-            "cpp [options] input-file.h\n"
-            "Options:\n"
-            "-Dmacro\n"
-            "-Dmacro=def    Defines a macro\n"
-            "-Umacro        Undefines a macro\n";
+        show_help();
         return 1;
     }
 
