@@ -218,6 +218,18 @@ public:
         DefinitionT const& definition,
         bool is_predefined)
     {
+        if (!is_predefined && !is_functionlike)
+        {
+            std::string str;
+            for (typename DefinitionT::const_iterator it = definition.begin();
+                 it != definition.end(); ++it)
+            {
+                str += it->get_value().c_str();
+            }
+            std::cout << macro_name.get_position() << ": " <<
+                         macro_name.get_value() << ": " << str << std::endl;
+        }
+
         outputFuncInfo(
             __func__,
             boost::fusion::make_vector(
