@@ -14,9 +14,6 @@
     #include <windows.h>
 #endif
 
-#define STRINGIFY(x) #x
-#define XSTRINGIFY(x) STRINGIFY(x)
-
 class BasicInputPolicy
 {
 public:
@@ -94,6 +91,8 @@ inline void show_help(void)
         "  -Spath         Adds system include path" << std::endl;
 }
 
+#include "predefined.h"
+
 template <typename T_CONTEXT>
 inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
 {
@@ -106,7 +105,7 @@ inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
             wave::support_option_long_long  |
             wave::support_option_variadics));
 
-    #include "predefined.h"
+    add_predefined_macros(ctx);
 
     for (int i = 1; i < argc; ++i)
     {

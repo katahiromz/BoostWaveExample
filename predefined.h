@@ -1,3 +1,9 @@
+#define STRINGIFY(x) #x
+#define XSTRINGIFY(x) STRINGIFY(x)
+
+template <typename Context>
+inline void add_predefined_macros(Context& ctx)
+{
 #ifdef DOS
     ctx.add_macro_definition("DOS=" XSTRINGIFY(DOS), true);
 #endif
@@ -1048,3 +1054,4 @@
 #ifdef unix
     ctx.add_macro_definition("unix=" XSTRINGIFY(unix), true);
 #endif
+}
