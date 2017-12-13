@@ -478,17 +478,26 @@
 #ifdef __ILP64__
     ctx.add_macro_definition("__ILP64__=" STRINGIFY2(__ILP64__), true);
 #endif
+#ifdef __INT16_C
+    ctx.add_macro_definition("__INT16_C(c)=" STRINGIFY2(__INT16_C(c)), true);
+#endif
 #ifdef __INT16_MAX__
     ctx.add_macro_definition("__INT16_MAX__=" STRINGIFY2(__INT16_MAX__), true);
 #endif
 #ifdef __INT16_TYPE__
     ctx.add_macro_definition("__INT16_TYPE__=" STRINGIFY2(__INT16_TYPE__), true);
 #endif
+#ifdef __INT32_C
+    ctx.add_macro_definition("__INT32_C(c)=" STRINGIFY2(__INT32_C(c)), true);
+#endif
 #ifdef __INT32_MAX__
     ctx.add_macro_definition("__INT32_MAX__=" STRINGIFY2(__INT32_MAX__), true);
 #endif
 #ifdef __INT32_TYPE__
     ctx.add_macro_definition("__INT32_TYPE__=" STRINGIFY2(__INT32_TYPE__), true);
+#endif
+#ifdef __INT64_C
+    ctx.add_macro_definition("__INT64_C(c)=" STRINGIFY2(__INT64_C(c)), true);
 #endif
 #ifdef __INT64_C_SUFFIX__
     ctx.add_macro_definition("__INT64_C_SUFFIX__=" STRINGIFY2(__INT64_C_SUFFIX__), true);
@@ -499,11 +508,17 @@
 #ifdef __INT64_TYPE__
     ctx.add_macro_definition("__INT64_TYPE__=" STRINGIFY2(__INT64_TYPE__), true);
 #endif
+#ifdef __INT8_C
+    ctx.add_macro_definition("__INT8_C(c)=" STRINGIFY2(__INT8_C(c)), true);
+#endif
 #ifdef __INT8_MAX__
     ctx.add_macro_definition("__INT8_MAX__=" STRINGIFY2(__INT8_MAX__), true);
 #endif
 #ifdef __INT8_TYPE__
     ctx.add_macro_definition("__INT8_TYPE__=" STRINGIFY2(__INT8_TYPE__), true);
+#endif
+#ifdef __INTMAX_C
+    ctx.add_macro_definition("__INTMAX_C(c)=" STRINGIFY2(__INTMAX_C(c)), true);
 #endif
 #ifdef __INTMAX_MAX__
     ctx.add_macro_definition("__INTMAX_MAX__=" STRINGIFY2(__INTMAX_MAX__), true);
@@ -790,11 +805,17 @@
 #ifdef __TURBOC__
     ctx.add_macro_definition("__TURBOC__=" STRINGIFY2(__TURBOC__), true);
 #endif
+#ifdef __UINT16_C
+    ctx.add_macro_definition("__UINT16_C(c)=" STRINGIFY2(__UINT16_C(c)), true);
+#endif
 #ifdef __UINT16_MAX__
     ctx.add_macro_definition("__UINT16_MAX__=" STRINGIFY2(__UINT16_MAX__), true);
 #endif
 #ifdef __UINT16_TYPE__
     ctx.add_macro_definition("__UINT16_TYPE__=" STRINGIFY2(__UINT16_TYPE__), true);
+#endif
+#ifdef __UINT32_C
+    ctx.add_macro_definition("__UINT32_C(c)=" STRINGIFY2(__UINT32_C(c)), true);
 #endif
 #ifdef __UINT32_MAX__
     ctx.add_macro_definition("__UINT32_MAX__=" STRINGIFY2(__UINT32_MAX__), true);
@@ -802,17 +823,26 @@
 #ifdef __UINT32_TYPE__
     ctx.add_macro_definition("__UINT32_TYPE__=" STRINGIFY2(__UINT32_TYPE__), true);
 #endif
+#ifdef __UINT64_C
+    ctx.add_macro_definition("__UINT64_C(c)=" STRINGIFY2(__UINT64_C(c)), true);
+#endif
 #ifdef __UINT64_MAX__
     ctx.add_macro_definition("__UINT64_MAX__=" STRINGIFY2(__UINT64_MAX__), true);
 #endif
 #ifdef __UINT64_TYPE__
     ctx.add_macro_definition("__UINT64_TYPE__=" STRINGIFY2(__UINT64_TYPE__), true);
 #endif
+#ifdef __UINT8_C
+    ctx.add_macro_definition("__UINT8_C(c)=" STRINGIFY2(__UINT8_C(c)), true);
+#endif
 #ifdef __UINT8_MAX__
     ctx.add_macro_definition("__UINT8_MAX__=" STRINGIFY2(__UINT8_MAX__), true);
 #endif
 #ifdef __UINT8_TYPE__
     ctx.add_macro_definition("__UINT8_TYPE__=" STRINGIFY2(__UINT8_TYPE__), true);
+#endif
+#ifdef __UINTMAX_C
+    ctx.add_macro_definition("__UINTMAX_C(c)=" STRINGIFY2(__UINTMAX_C(c)), true);
 #endif
 #ifdef __UINTMAX_MAX__
     ctx.add_macro_definition("__UINTMAX_MAX__=" STRINGIFY2(__UINTMAX_MAX__), true);
