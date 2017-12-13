@@ -155,11 +155,27 @@ inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
             ctx.add_sysinclude_path(szInclude);
         }
     #endif
-    else
-#endif
+#else   // ndef _WIN32
+    const char *path1 = getenv("CPATH");
+    const char *path2 = getenv("C_INCLUDE_PATH");
+    const char *path3 = getenv("CPLUS_INCLUDE_PATH");
+    if (path1)
+    {
+        ctx.add_sysinclude_path(path1);
+    }
+    if (path2)
+    {
+        ctx.add_sysinclude_path(path2);
+    }
+    else if (path3)
+    {
+        ctx.add_sysinclude_path(path3);
+    }
+    if (!path1 && !path2 && !path3)
     {
         ctx.add_sysinclude_path("/usr/include");
     }
+#endif  // ndef _WIN32
 }
 
 #endif  // ndef BOOST_WAVE_EXAMPLE_COMMON_HPP
