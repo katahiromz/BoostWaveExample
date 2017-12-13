@@ -62,7 +62,7 @@ message("JAPANESE is ${JAPANESE}")
 ##############################################################################
 
 # Boost
-find_package(Boost REQUIRED COMPONENTS system filesystem wave)
+find_package(Boost REQUIRED COMPONENTS system filesystem wave thread)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -82,6 +82,13 @@ else()
         No2_IgnoreDirectiveHook
         No3_OutputHook
         No4_MakeIncludeTree)
+endif()
+
+##############################################################################
+# use C++11
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_definitions(-std=c++11)
 endif()
 
 ##############################################################################
