@@ -85,7 +85,7 @@ public:
 inline void show_help(void)
 {
     std::cout <<
-        "cpp [options] input-file.h\n"
+        "Usage: cpp [options] input-file.h\n"
         "Options:\n"
         "  -Dmacro        Defines a macro\n"
         "  -Dmacro=def    Defines a macro\n"
