@@ -6,7 +6,16 @@ int main(int argc, char* argv[])
     using namespace std;
     namespace wave = boost::wave;
 
-    if (argc < 2) { return 1; }
+    if (argc < 2)
+    {
+        cout <<
+            "cpp [options] input-file.h\n"
+            "Options:\n"
+            "-Dmacro\n"
+            "-Dmacro=def    Defines a macro\n"
+            "-Umacro        Undefines a macro\n";
+        return 1;
+    }
 
     // Load source and convert it to UTF-8
     const std::string code = JapaneseEncoding::readFileToUtf8(argv[1]);
@@ -20,7 +29,7 @@ int main(int argc, char* argv[])
             wave::context_policies::default_preprocessing_hooks>
         Context;
     Context ctx(code.begin(), code.end(), argv[1]);
-    setup_context(ctx);
+    setup_context(ctx, argc, argv);
 
     try
     {

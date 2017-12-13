@@ -83,7 +83,7 @@ public:
 };
 
 template <typename T_CONTEXT>
-inline void setup_context(T_CONTEXT& ctx)
+inline void setup_context(T_CONTEXT& ctx, int argc, char **argv)
 {
     namespace wave = boost::wave;
 
@@ -95,6 +95,20 @@ inline void setup_context(T_CONTEXT& ctx)
             wave::support_option_variadics));
 
     #include "predefined.h"
+
+    for (int i = 1; i < argc; ++i)
+    {
+        if (argv[i][0] == '-' && argv[i][1] == 'D')
+        {
+            std::string str = &(argv[i][2]);
+            ctx.add_macro_definition(str);
+        }
+        else if (argv[i][0] == '-' && argv[i][1] == 'U')
+        {
+            std::string str = &(argv[i][2]);
+            ctx.remove_macro_definition(str);
+        }
+    }
 
 #ifdef _WIN32
     const int MAX_ENV = 512;
@@ -108,18 +122,16 @@ inline void setup_context(T_CONTEXT& ctx)
         char szInclude[MAX_ENV], szHost[MAX_ENV];
         if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV))
         {
-            lstrcatA(szInclude, "/include");
+            strcat(szInclude, "/include");
             ctx.add_sysinclude_path(szInclude);
-            std::cout << szInclude << std::endl;
         }
         if (GetEnvironmentVariableA("MINGW_PREFIX", szInclude, MAX_ENV) &&
             GetEnvironmentVariableA("MINGW_CHOST", szHost, MAX_ENV))
         {
-            lstrcatA(szInclude, "/");
-            lstrcatA(szInclude, szHost);
-            lstrcatA(szInclude, "/include");
+            strcat(szInclude, "/");
+            strcat(szInclude, szHost);
+            strcat(szInclude, "/include");
             ctx.add_sysinclude_path(szInclude);
-            std::cout << szInclude << std::endl;
         }
     #endif
     else

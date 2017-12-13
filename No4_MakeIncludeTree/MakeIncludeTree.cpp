@@ -3,13 +3,22 @@
 #include <boost/property_tree/info_parser.hpp>
 #include "MakeIncludeTree.hpp"
 
-int main(int argc, char* argv[])
+int main(int argc, char **argv)
 {
     using namespace std;
     namespace wave = boost::wave;
     using namespace boost::property_tree;
 
-    if (argc < 2) { return 1; }
+    if (argc < 2)
+    {
+        cout <<
+            "cpp [options] input-file.h\n"
+            "Options:\n"
+            "-Dmacro\n"
+            "-Dmacro=def    Defines a macro\n"
+            "-Umacro        Undefines a macro\n";
+        return 1;
+    }
 
     // Load source
     std::string code;
@@ -37,7 +46,7 @@ int main(int argc, char* argv[])
         code.end(),
         argv[1],
         MakeIncludeTreeHook(incTree)); // Pass the tree
-    setup_context(ctx);
+    setup_context(ctx, argc, argv);
 
     try
     {
