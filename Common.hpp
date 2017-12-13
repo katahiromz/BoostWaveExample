@@ -90,8 +90,8 @@ inline void show_help(void)
         "  -Dmacro        Defines a macro\n"
         "  -Dmacro=def    Defines a macro\n"
         "  -Umacro        Undefines a macro\n"
-        "  -Ipath         Add include path\n"
-        "  -Spath         Add system include path" << std::endl;
+        "  -Ipath         Adds include path\n"
+        "  -Spath         Adds system include path" << std::endl;
 }
 
 template <typename T_CONTEXT>
